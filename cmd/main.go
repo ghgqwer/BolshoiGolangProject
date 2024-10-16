@@ -1,27 +1,19 @@
 package main
 
 import (
-	"fmt"
-	"homework1/internal/storage"
-	"log"
+	//"fmt"
+
+	"project_1/internal/server"
+	"project_1/internal/storage/storage"
 )
 
 func main() {
-	s, err := storage.NewStorage()
+	store, err := storage.NewStorage()
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
-	s.Set("string_val", "value1")
-	s.Set("int_val", "123")
-	s.Set("", "Val")
 
-	res_str := s.Get("string_val")
-	res_int := s.Get("int_val")
-	res_unknown_val := s.Get("unknown")
+	serv := server.New(":8090", &store)
+	serv.Start()
 
-	res_getkindstr := s.GetKind("string_val")
-	res_getkindint := s.GetKind("int_val")
-	res_getkind_unkonown := s.GetKind("unknown")
-	fmt.Println(res_str, res_int, res_unknown_val)
-	fmt.Println(res_getkindstr, res_getkindint, res_getkind_unkonown)
 }
